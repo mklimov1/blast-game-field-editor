@@ -1,0 +1,35 @@
+{
+  "name": "vite-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "vite": "vite --config ./config/vite.config.ts",
+    "dev": "npm run vite",
+    "start": "npm run dev",
+    "build": "npm run vite build",
+    "preview": "npm run vite preview",
+    "lint": "eslint . --ext .ts,.tsx,.vue",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.3",
+    "eslint": "9.37.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-prettier": "5.5.4",
+    "lint-staged": "16.1.2",
+    "prettier": "3.6.2",
+    "prettier-plugin-vue": "^1.1.6",
+    "rollup-plugin-visualizer": "^6.0.5",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.46.1",
+    "vite": "7.0.0",
+    "vite-plugin-compression": "^0.5.1"
+  },
+  "dependencies": {
+    "pinia": "^3.0.4",
+    "vue": "^3.5.27"
+  }
+}
