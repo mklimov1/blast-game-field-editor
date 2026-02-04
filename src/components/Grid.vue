@@ -7,40 +7,36 @@
 
   const colors = ['#fff', '#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6'];
 
-  const selectedCell = ref<{ row: number; col: number } | null>(null);
-  const gridRef = ref<HTMLElement | null>(null);
+  const hoveredCell = ref<{ row: number; col: number } | null>(null);
 
   function handleKeydown(e: KeyboardEvent) {
-    if (!selectedCell.value) return;
+    if (!hoveredCell.value) return;
 
     const num = parseInt(e.key);
     if (isNaN(num) || num < 0 || num > store.uniqChip) return;
 
-    store.setCell(selectedCell.value.row, selectedCell.value.col, num);
+    store.setCell(hoveredCell.value.row, hoveredCell.value.col, num);
   }
 
-  function handleClickOutside(e: MouseEvent) {
-    if (gridRef.value && !gridRef.value.contains(e.target as Node)) {
-      selectedCell.value = null;
+  function handleGridEnter() {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
     }
   }
 
-  function isSelected(idx: number) {
-    if (!selectedCell.value) return false;
-    return (
-      selectedCell.value.row === Math.floor(idx / store.cols) &&
-      selectedCell.value.col === idx % store.cols
-    );
+  function getRowCol(idx: number) {
+    return {
+      row: Math.floor(idx / store.cols),
+      col: idx % store.cols,
+    };
   }
 
   onMounted(() => {
     window.addEventListener('keydown', handleKeydown);
-    document.addEventListener('click', handleClickOutside);
   });
 
   onUnmounted(() => {
     window.removeEventListener('keydown', handleKeydown);
-    document.removeEventListener('click', handleClickOutside);
   });
 </script>
 
@@ -51,20 +47,26 @@
     <Title>Grid</Title>
 
     <div
-      ref="gridRef"
       :class="$style.grid"
       :style="{
         gridTemplateColumns: `repeat(${store.cols}, 1fr)`,
         aspectRatio: `${store.cols} / ${store.rows}`,
       }"
+      @mouseenter="handleGridEnter"
+      @mouseleave="hoveredCell = null"
     >
 
       <div
         v-for="(cell, idx) in store.grid.flat()"
         :key="idx"
-        :class="[$style.cell, isSelected(idx) && $style.selected]"
+        :class="[
+          $style.cell,
+          hoveredCell?.row === getRowCol(idx).row &&
+            hoveredCell?.col === getRowCol(idx).col &&
+            $style.hovered,
+        ]"
         :style="{ background: colors[cell] }"
-        @click="selectedCell = { row: Math.floor(idx / store.cols), col: idx % store.cols }"
+        @mouseenter="hoveredCell = getRowCol(idx)"
       >
          {{ cell }}
       </div>
@@ -89,12 +91,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    cursor: crosshair;
   }
 
-  .cell.selected {
-    opacity: 0.6;
-    border-color: #000;
-    border-width: 5px;
+  .cell.hovered {
+    outline: 2px solid #000;
+    outline-offset: -2px;
   }
 </style>
