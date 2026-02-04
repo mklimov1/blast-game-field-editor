@@ -8,7 +8,9 @@
 
   const store = useEditorStore();
 
-  const isButtonDisabled = computed(() => store.grid.flat().some((value) => value === 0));
+  const isButtonDisabled = computed(
+    () => store.grid.flat().some((value) => value === 0) || store.goal === 0 || store.steps === 0,
+  );
 
   const buttonClickHandle = () => {
     downloadFile(store.exportJSON(), `level-${store.level}.json`);
@@ -25,11 +27,15 @@
 
       <Input label="Level" type="number" v-model="store.level" />
 
-      <Input label="Uniq chip count" type="number" v-model="store.uniqChip" :min="1" :max="6" />
+      <Input label="Uniq chip count" type="number" v-model="store.uniqChip" :min="2" :max="6" />
 
-      <Input label="Rows" type="number" v-model="store.rows" :min="3" :max="30" />
+      <Input label="Rows" type="number" v-model="store.rows" :min="6" :max="20" />
 
-      <Input label="Cols" type="number" v-model="store.cols" :min="3" :max="30" />
+      <Input label="Cols" type="number" v-model="store.cols" :min="6" :max="20" />
+
+      <Input label="Goal" type="number" v-model="store.goal" />
+
+      <Input label="Steps" type="number" v-model="store.steps" />
 
     </div>
 

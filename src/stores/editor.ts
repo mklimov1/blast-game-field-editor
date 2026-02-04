@@ -4,9 +4,11 @@ import { ref, watch } from 'vue';
 export const useEditorStore = defineStore('editor', () => {
   const level = ref(1);
   const uniqChip = ref(3);
-  const rows = ref(3);
-  const cols = ref(3);
+  const rows = ref(6);
+  const cols = ref(6);
   const grid = ref<number[][]>([]);
+  const goal = ref(0);
+  const steps = ref(0);
 
   watch(
     [rows, cols],
@@ -31,13 +33,16 @@ export const useEditorStore = defineStore('editor', () => {
         rows: rows.value,
         cols: cols.value,
         grid: grid.value,
+        uniqueChipsCount: uniqChip.value,
+        goal: goal.value,
+        steps: steps.value,
       },
       null,
       2,
     );
   }
 
-  return { level, uniqChip, rows, cols, grid, setCell, exportJSON };
+  return { level, uniqChip, rows, cols, grid, goal, steps, setCell, exportJSON };
 });
 
 if (import.meta.hot) {
