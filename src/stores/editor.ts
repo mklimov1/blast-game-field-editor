@@ -1,6 +1,8 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 
+import type { Level } from '@/types/types';
+
 export const useEditorStore = defineStore('editor', () => {
   const level = ref(1);
   const uniqChip = ref(3);
@@ -42,7 +44,17 @@ export const useEditorStore = defineStore('editor', () => {
     );
   }
 
-  return { level, uniqChip, rows, cols, grid, goal, steps, setCell, exportJSON };
+  const importLevel = (data: Partial<Level>) => {
+    level.value = data.level ?? level.value;
+    uniqChip.value = data.uniqueChipsCount ?? uniqChip.value;
+    rows.value = data.rows ?? rows.value;
+    cols.value = data.cols ?? cols.value;
+    grid.value = data.grid ?? grid.value;
+    goal.value = data.goal ?? goal.value;
+    steps.value = data.steps ?? steps.value;
+  };
+
+  return { level, uniqChip, rows, cols, grid, goal, steps, setCell, exportJSON, importLevel };
 });
 
 if (import.meta.hot) {

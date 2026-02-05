@@ -1,9 +1,11 @@
 <template>
 
-  <h2><slot /></h2>
+  <h2 :class="$style.root"><slot /></h2>
 
 </template>
 
-<script setup lang="ts">
-
-</script>
+<style module>
+  .root {
+    margin: 30px 0;
+  }
+</style>

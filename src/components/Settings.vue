@@ -5,6 +5,7 @@
   import Title from './ui/Title.vue';
   import { useEditorStore } from '@/stores/editor';
   import { downloadFile } from '@/utils/downloadFile';
+  import LevelImportButton from './LevelImportButton.vue';
 
   const store = useEditorStore();
 
@@ -21,7 +22,13 @@
 
   <div>
 
-    <Title>Editor</Title>
+    <div :class="$style.content">
+
+      <Title>Editor</Title>
+
+      <LevelImportButton />
+
+    </div>
 
     <div :class="$style.content">
 
