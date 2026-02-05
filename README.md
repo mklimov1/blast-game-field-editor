@@ -1,4 +1,4 @@
-# Blast Game field generator
+# Blast Game field editor
 
 ## Getting Started
 
