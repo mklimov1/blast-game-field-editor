@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { useEditorStore } from '@/stores/editor';
-  import type { Level } from '@/types/types';
 
   const store = useEditorStore();
 
